@@ -1,0 +1,29 @@
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_CACHE_HOME="$HOME/.cache"
+
+export VISUAL=/usr/local/bin/nvim
+export EDITOR=/usr/local/bin/nvim
+
+export PATH="$HOME/.local/bin":$PATH
+export MANPAGER='nvim +Man!'
+export MANWIDTH=999
+export PATH=$HOME/.cargo/bin:$PATH
+export PATH=$HOME/.local/share/go/bin:$PATH
+export GOPATH=$HOME/.local/share/go
+export PATH=$HOME/.fnm:$PATH
+export PATH="$PATH:./node_modules/.bin"
+export PATH="$PATH:/home/traenqui/.local/share/bob/nvim-bin"
+export PATH="$PATH:/home/linuxbrew/.linuxbrew/bin"
+export PATH="$PATH:$HOME/.local/bin"
+export PATH="$PATH:/home/traenqui/.local/share/mise/installs/python/3.12/bin"
+
+# Color man pages
+export LESS_TERMCAP_mb=$'\E[01;32m'
+export LESS_TERMCAP_md=$'\E[01;32m'
+export LESS_TERMCAP_me=$'\E[0m'
+export LESS_TERMCAP_se=$'\E[0m'
+export LESS_TERMCAP_so=$'\E[01;47;34m'
+export LESS_TERMCAP_ue=$'\E[0m'
+export LESS_TERMCAP_us=$'\E[01;36m'
+export LESS=-R

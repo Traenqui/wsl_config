@@ -1,0 +1,16 @@
+.nvimlog
+AstroNvim/
+bottom/
+configstore/
+create-next-app-nodejs/
+ghc/
+grammarly-languageserver/
+hammer-nvim/
+lazydocker/
+lazygit/
+mise/
+nextjs-nodejs/
+nodemon.json
+nvim_old/
+pls/
+vscode-sqltools/
