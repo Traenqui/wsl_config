@@ -45,13 +45,112 @@ function nvimenv() {
   fi
 }
 
+# TODO redo this later 
 function nvims() {
-  items=$(find $HOME/.config -maxdepth 2 -name "init.lua" -type f -execdir sh -c 'pwd | xargs basename' \;)
-  selected=$(printf "%s\n" "${items[@]}" | FZF_DEFAULT_OPTS="${FZF_DEFAULT_OPTS-} --preview-window 'right:border-left:50%:<40(right:border-left:50%:hidden)' --preview 'lsd -l -A --tree --depth=1 --color=always --blocks=size,name ~/.config/{} | head -200'" fzf )
-  if [[ -z $selected ]]; then
+  items=$(find $HOME/.config -maxdepth 2 -name "init.lua" -type f -exec dirname {} \; | xargs -I {} basename {})
+  config=$(printf "%s\n" "${items[@]}" | fzf --prompt=" Neovim Config  " --height=~50% --layout=reverse --border --exit-0)
+  if [[ -z $config ]]; then
+    echo "Nothing selected"
     return 0
-  elif [[ $selected == "nvim" ]]; then
-    selected=""
+  elif [[ $config == "default" ]]; then
+    config=""
   fi
-  NVIM_APPNAME=$selected nvim "$@"
+  NVIM_APPNAME=$config nvim $@
+}
+
+# use fd for listing path candidates
+_fzf_compgen_path() {
+  fd --hidden --exclude .git . "$1"
+}
+
+
+_fzf_compgen_dir() {
+  fd --type=d --hidden --exclude .git . "$1"
+}
+
+
+# Advanced customization of fzf options via _fzf_comprun function
+# - The first argument to the function is the name of the command.
+# - You should make sure to pass the rest of the arguments to fzf.
+_fzf_comprun() {
+  local command=$1
+  shift
+
+  case "$command" in
+    cd)           fzf --preview 'eza --tree --color=always {} | head -200' "$@" ;;
+    export|unset) fzf --preview "eval 'echo \$'{}"         "$@" ;;
+    ssh)          fzf --preview 'dig {}'                   "$@" ;;
+    *)            fzf --preview "bat -n --color=always --line-range :500 {}" "$@" ;;
+  esac
+}
+
+function check_service() {
+  output=$(/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe -Command "
+    Get-Service -Name @('DBLibSrv', 'SORBA Controller', 'SORBA WebService') | Select-Object -Property Name, Status | Format-Table -AutoSize
+  ")
+
+  echo "$output"
+}
+
+function sorba() {
+  if [[ "$1" == "--release" || "$1" == "-r" ]]; then
+    /mnt/c/Workspace/Build/bin/Release/QWorkSpace64.exe &
+  else
+    /mnt/c/Workspace/Build/bin/Debug/QWorkSpace64.exe &
+  fi
+}
+
+function devex () {
+  if [[ "$1" == "--release" || "$1" == "-r" ]]; then
+    /mnt/c/Workspace/Build/bin/Release/QWorkspaceDotNet64.exe &
+  else
+    /mnt/c/Workspace/Build/bin/Debug/QWorkSpaceDotNet64.exe &
+  fi
+}
+
+function msboot() {
+  if [[ "$1" == "--release" || "$1" == "-r" ]]; then
+    /mnt/c/Workspace/Build/bin/Release/Bootstrapper64.exe &
+  else
+    /mnt/c/Workspace/Build/bin/Debug/Bootstrapper64.exe &
+  fi
+}
+
+
+################################################################################
+# Home Brew
+################################################################################
+
+# Install (one or multiple) selected application(s)
+# using "brew search" as source input
+# mnemonic [B]rew [I]nstall [P]ackage
+bip() {
+  local inst=$(brew search "$@" | fzf -m)
+
+  if [[ $inst ]]; then
+    for prog in $(echo $inst);
+    do; brew install $prog; done;
+  fi
+}
+
+# Update (one or multiple) selected application(s)
+# mnemonic [B]rew [U]pdate [P]ackage
+bup() {
+  local upd=$(brew leaves | fzf -m)
+
+  if [[ $upd ]]; then
+    for prog in $(echo $upd);
+    do; brew upgrade $prog; done;
+  fi
+}
+
+# Delete (one or multiple) selected application(s)
+# mnemonic [B]rew [C]lean [P]ackage (e.g. uninstall)
+bcp() {
+  local uninst=$(brew leaves | fzf -m)
+
+  if [[ $uninst ]]; then
+    for prog in $(echo $uninst);
+    do; brew uninstall $prog; done;
+  fi
 }

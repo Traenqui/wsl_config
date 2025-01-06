@@ -23,4 +23,38 @@ local M = {
 	},
 }
 
+M.config = function()
+	require("toggleterm").setup({})
+	vim.api.nvim_buf_set_keymap(0, "t", "jk", [[<C-\><C-n>]])
+	vim.api.nvim_buf_set_keymap(0, "t", "kj", [[<C-\><C-n>]])
+	vim.api.nvim_buf_set_keymap(
+		0,
+		"t",
+		"<C-h>",
+		[[<C-\><C-n><C-W>h]],
+		{ noremap = true, silent = true, desc = "terminal: Focus left" }
+	)
+	vim.api.nvim_buf_set_keymap(
+		0,
+		"t",
+		"<C-j>",
+		[[<C-\><C-n><C-W>j]],
+		{ noremap = true, silent = true, desc = "terminal: Focus up" }
+	)
+	vim.api.nvim_buf_set_keymap(
+		0,
+		"t",
+		"<C-k>",
+		[[<C-\><C-n><C-W>k]],
+		{ noremap = true, silent = true, desc = "terminal: Focus down" }
+	)
+	vim.api.nvim_buf_set_keymap(
+		0,
+		"t",
+		"<C-l>",
+		[[<C-\><C-n><C-W>l]],
+		{ noremap = true, silent = true, desc = "terminal: Focus right" }
+	)
+end
+
 return M

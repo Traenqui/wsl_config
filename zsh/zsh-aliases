@@ -21,12 +21,11 @@ alias lS='exa -1 --icons'                                                       
 alias lt='exa --tree --level=2 --icons'                                          # tree
 
 # Personal
-alias sorba='/mnt/c/Workspace/Build/bin/Debug/QWorkSpace64.exe'
 alias dotproj='$HOME/.dotfiles/scripts/new-dotnet-project.sh'
 alias dotrepo='$HOME/.dotfiles/scripts/new-dotnet-repo.sh'
 
-alias work="cd /mnt/c/dev/work"
-alias study="cd /mnt/c/dev/study"
+alias work="cd /mnt/c/repos/work"
+alias study="cd /mnt/c/repos/study"
 alias dot="cd ~/.dotfiles"
 alias conf="cd ~/.config"
 

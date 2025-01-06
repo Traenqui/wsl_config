@@ -14,12 +14,6 @@ local M = {
 					return is_disabled
 				end,
 			},
-			tabline = { -- UI upper bar
-				lib.component.tabline_conditional_padding(),
-				lib.component.tabline_buffers(),
-				lib.component.fill({ hl = { bg = "tabline_bg" } }),
-				lib.component.tabline_tabpages(),
-			},
 			winbar = { -- UI breadcrumbs bar
 				init = function(self)
 					self.bufnr = vim.api.nvim_get_current_buf()
